@@ -3,27 +3,444 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GRANDPA's Whiskey</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>GRANDPA's Whiskey | Premium Whiskey Collection</title>
+
+    <!-- Link to external CSS (if you have a CSS file) -->
     <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Google Fonts (optional) -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Internal CSS -->
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Logo on the left */
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin: 0 10px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        /* Cart Icon */
+        .cart-icon {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .cart-icon img {
+            width: 30px;
+            height: 30px;
+        }
+
+        #cart-count {
+            position: absolute;
+            top: -5px;
+            right: -10px;
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            padding: 5px 10px;
+            font-size: 14px;
+        }
+
+        /* Hero Section Styles */
+        .hero {
+            background-image: url('images/whiskey-banner.jpg'); /* Replace with your banner image */
+            background-size: cover;
+            background-position: center;
+            height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Background Overlay for Better Contrast */
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4); /* Adjust opacity for darker effect */
+            z-index: 1; /* Ensure it stays behind the text */
+        }
+
+        /* Hero Content (Text and Buttons) */
+        .hero-content {
+            position: relative;
+            z-index: 2; /* Bring text in front of overlay */
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .cta-btn, .cta-btn-outline {
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 10px;
+            transition: 0.3s;
+        }
+
+        .cta-btn {
+            background-color: #ff6600; /* Primary CTA button */
+            color: white;
+        }
+
+        .cta-btn-outline {
+            background-color: transparent; /* Secondary CTA button */
+            color: white;
+            border: 2px solid white;
+        }
+
+        /* Button Hover Effects */
+        .cta-btn:hover {
+            background-color: #ff8c33;
+        }
+
+        .cta-btn-outline:hover {
+            background-color: white;
+            color: #333;
+        }
+
+        .section {
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .section h2 {
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+
+        /* Layout for the products and blinking banner */
+        .product-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-top: 40px;
+        }
+
+        /* Blinking Banner Styles */
+        .blinking-banner {
+            width: 200px;
+            padding: 20px;
+            background-color: #ff6600;
+            color: white;
+            font-size: 20px;
+            text-align: center;
+            border-radius: 8px;
+            animation: blink 1s infinite;
+            position: sticky;
+            top: 20px;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        /* Products Grid */
+        .products {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            width: 80%;
+        }
+
+        .product {
+            background-color: white;
+            padding: 20px;
+            margin: 10px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .product img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .product h3 {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        .product p {
+            font-size: 16px;
+            margin: 10px 0;
+        }
+
+        .product button {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        /* Responsive for small devices */
+        @media (max-width: 1024px) {
+            .products {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .products {
+                grid-template-columns: repeat(1, 1fr);
+            }
+
+            .blinking-banner {
+                display: none;
+            }
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* Smooth Scroll Behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
 </head>
 <body>
+
+    <!-- Header with Navigation and Cart Icon -->
     <header>
-        <h1>Welcome to GRANDPA's Whiskey</h1>
+        <div class="logo">
+            <img src="images/logo.png" alt="Grandpa's Whiskey Logo"> <!-- Add your logo here -->
+            <h1>GRANDPA's Whiskey</h1>
+        </div>
         <nav>
             <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/products">Products</a></li>
-                <li><a href="/cart">Cart</a></li>
-                <li><a href="/checkout">Checkout</a></li>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#cart">Cart</a></li>
+                <li><a href="#contact">Contact Us</a></li>
             </ul>
         </nav>
+        <!-- Cart Icon with Quantity -->
+        <div class="cart-icon">
+            <a href="checkout.html"><img src="images/cart-icon.png" alt="Cart"></a>
+            <span id="cart-count">0</span> <!-- Product Quantity Badge -->
+        </div>
     </header>
-    <main>
-        <section id="hero">
-            <h2>Your Premium Whiskey Collection</h2>
-            <button>Shop Now</button>
-        </section>
-    </main>
-    <script src="js/main.js"></script>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-overlay"></div> <!-- Background overlay for better contrast -->
+        <div class="hero-content">
+            <h1>Discover the Finest Whiskey</h1>
+            <p>From rare finds to classic blends, elevate your taste.</p>
+            <!-- The Shop Now button now links to the products section -->
+            <button class="cta-btn" onclick="window.location.href='#products'">Shop Now</button>
+            <button class="cta-btn-outline">Learn More</button>
+        </div>
+    </section>
+
+    <!-- Products Section with Blinking Banner -->
+    <section class="section" id="products">
+        <h2>Our Collection</h2>
+        <div class="product-container">
+            <!-- Blinking Banner on the left -->
+            <div class="blinking-banner">
+                <h3>Special Offer!</h3>
+                <p>10% off on all Single Malt Whiskeys.</p>
+                <p>Use code: <strong>MALT10</strong></p>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="products">
+                <!-- Product 1 -->
+                <div class="product">
+                    <img src="images/whiskey-1.jpg" alt="Whiskey 1">
+                    <h3>Classic Bourbon</h3>
+                    <p>$49.99</p>
+                    <button class="add-to-cart-btn" data-name="Classic Bourbon" data-price="49.99">Add to Cart</button>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="product">
+                    <img src="images/whiskey-2.jpg" alt="Whiskey 2">
+                    <h3>Irish Single Malt</h3>
+                    <p>$59.99</p>
+                    <button class="add-to-cart-btn" data-name="Irish Single Malt" data-price="59.99">Add to Cart</button>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="product">
+                    <img src="images/whiskey-3.jpg" alt="Whiskey 3">
+                    <h3>Scotch Whisky</h3>
+                    <p>$69.99</p>
+                    <button class="add-to-cart-btn" data-name="Scotch Whisky" data-price="69.99">Add to Cart</button>
+                </div>
+
+                <!-- Product 4 -->
+                <div class="product">
+                    <img src="images/whiskey-4.jpg" alt="Whiskey 4">
+                    <h3>Rye Whiskey</h3>
+                    <p>$55.99</p>
+                    <button class="add-to-cart-btn" data-name="Rye Whiskey" data-price="55.99">Add to Cart</button>
+                </div>
+
+                <!-- Product 5 -->
+                <div class="product">
+                    <img src="images/whiskey-5.jpg" alt="Whiskey 5">
+                    <h3>Tennessee Whiskey</h3>
+                    <p>$65.99</p>
+                    <button class="add-to-cart-btn" data-name="Tennessee Whiskey" data-price="65.99">Add to Cart</button>
+                </div>
+
+                <!-- Product 6 -->
+                <div class="product">
+                    <img src="images/whiskey-6.jpg" alt="Whiskey 6">
+                    <h3>Japanese Whiskey</h3>
+                    <p>$79.99</p>
+                    <button class="add-to-cart-btn" data-name="Japanese Whiskey" data-price="79.99">Add to Cart</button>
+                </div>
+
+                <!-- Product 7 -->
+                <div class="product">
+                    <img src="images/whiskey-7.jpg" alt="Whiskey 7">
+                    <h3>Canadian Whiskey</h3>
+                    <p>$45.99</p>
+                    <button class="add-to-cart-btn" data-name="Canadian Whiskey" data-price="45.99">Add to Cart</button>
+                </div>
+
+                <!-- Product 8 -->
+                <div class="product">
+                    <img src="images/whiskey-8.jpg" alt="Whiskey 8">
+                    <h3>Peated Scotch</h3>
+                    <p>$89.99</p>
+                    <button class="add-to-cart-btn" data-name="Peated Scotch" data-price="89.99">Add to Cart</button>
+                </div>
+
+                <!-- Product 9 -->
+                <div class="product">
+                    <img src="images/whiskey-9.jpg" alt="Whiskey 9">
+                    <h3>Blended Whiskey</h3>
+                    <p>$39.99</p>
+                    <button class="add-to-cart-btn" data-name="Blended Whiskey" data-price="39.99">Add to Cart</button>
+                </div>
+
+                <!-- Product 10 -->
+                <div class="product">
+                    <img src="images/whiskey-10.jpg" alt="Whiskey 10">
+                    <h3>Bourbon Aged</h3>
+                    <p>$99.99</p>
+                    <button class="add-to-cart-btn" data-name="Bourbon Aged" data-price="99.99">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 GRANDPA's Whiskey. All Rights Reserved.</p>
+    </footer>
+
+    <!-- JavaScript for Cart Functionality -->
+    <script>
+        let cart = [];
+
+        // Function to handle adding items to cart
+        function addToCart(productName, productPrice) {
+            // Add the product to the cart array
+            cart.push({ name: productName, price: productPrice });
+             // Store the cart array in localStorage
+            localStorage.setItem('cart', JSON.stringify(cart));
+
+            // Update the cart count in the header
+            updateCartCount();
+               alert(`${productName} has been added to your cart!`);
+        }
+
+        // Function to update the cart count in the header
+        function updateCartCount() {
+            const cartCount = document.getElementById('cart-count');
+            cartCount.textContent = cart.length;
+        }
+
+        // Sample usage: Bind the addToCart function to each product button
+        document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+            button.addEventListener('click', (event) => {
+                const productName = event.target.dataset.name;
+                const productPrice = event.target.dataset.price;
+                addToCart(productName, productPrice);
+            });
+        });
+
+        // Initialize cart count on page load
+        window.onload = () => {
+            // Load cart from localStorage
+            cart = JSON.parse(localStorage.getItem('cart')) || [];
+            updateCartCount();
+        };
+    </script>
 </body>
 </html>

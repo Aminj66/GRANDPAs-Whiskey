@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | GRANDPA's Whiskey</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .cart-summary {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #333;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #333;
+            color: white;
+        }
+
+        .total {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: right;
+            padding-top: 10px;
+        }
+
+        .checkout-btn {
+            background-color: #ff6600;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+            text-align: center;
+            font-size: 18px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        .checkout-btn:hover {
+            background-color: #ff8c33;
+        }
+
+        .empty-cart {
+            text-align: center;
+            font-size: 20px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Checkout</h1>
+    <div class="cart-summary">
+        <!-- Cart Items Table -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody id="cart-items">
+                <!-- Cart items will be dynamically injected here -->
+            </tbody>
+        </table>
+        <!-- Total Amount -->
+        <p class="total">Total: $<span id="total-amount">0.00</span></p>
+
+        <!-- Proceed to Payment Button -->
+        <button class="checkout-btn" onclick="proceedToPayment()">Proceed to Payment</button>
+    </div>
+
+    <!-- JavaScript for Checkout -->
+    <script>
+        // Function to display cart items on the checkout page
+        function displayCartItems() {
+            const cartItemsContainer = document.getElementById('cart-items');
+            const totalAmountElement = document.getElementById('total-amount');
+            let totalAmount = 0;
+            // Load the cart from localStorage
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<tr><td colspan="2" class="empty-cart">Your cart is empty</td></tr>';
+                document.querySelector('.checkout-btn').style.display = 'none';
+                return;
+            }
+
+            // Clear any existing items in the table
+            cartItemsContainer.innerHTML = '';
+
+            // Loop through cart items and add them to the table
+            cart.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item.name}</td>
+                    <td>$${parseFloat(item.price).toFixed(2)}</td>
+                `;
+                cartItemsContainer.appendChild(row);
+                totalAmount += parseFloat(item.price);
+            });
+
+            // Update the total amount
+            totalAmountElement.textContent = totalAmount.toFixed(2);
+        }
+
+        // Function for the "Proceed to Payment" button
+        function proceedToPayment() {
+            alert('Thank you for your purchase! Redirecting to payment gateway...');
+            // Clear the cart after payment
+            localStorage.removeItem('cart');
+            window.location.href = 'index.html';  // Redirect to homepage or payment page
+        }
+        // Load cart items when the page is loaded
+        window.onload = displayCartItems;
+    </script>
+</body>
+</html>
+
