@@ -1,0 +1,73 @@
+<!-- admin-panel.html -->
+<form id="productForm" enctype="multipart/form-data">
+    <input type="text" name="name" id="product-name" placeholder="Product Name" required>
+    <input type="number" name="price" id="product-price" placeholder="Product Price" required>
+    <textarea name="description" id="product-description" placeholder="Product Description"></textarea>
+    <input type="file" name="image" id="product-image" required>
+    <button type="submit">Add Product</button>
+</form>
+
+<div id="product-list"></div>
+
+<script>
+document.getElementById('productForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const token = localStorage.getItem('token');
+    if (!token) {
+        alert('You are not authorized');
+        return;
+    }
+
+    const formData = new FormData(this);
+
+    try {
+        const response = await fetch('http://localhost:5000/products', {
+            method: 'POST',
+            headers: {
+                'Authorization': token
+            },
+            body: formData
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+            // Product added successfully
+            alert('Product added');
+            // Refresh the product list
+            displayProducts();
+        } else {
+            // Handle errors
+            alert(data.message);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+});
+
+// Function to display products
+async function displayProducts() {
+    try {
+        const response = await fetch('http://localhost:5000/products');
+        const products = await response.json();
+        const productList = document.getElementById('product-list');
+        productList.innerHTML = '';
+
+        products.forEach(product => {
+            const productItem = document.createElement('div');
+            productItem.innerHTML = `
+                <h3>${product.name}</h3>
+                <p>Price: $${product.price}</p>
+                <p>${product.description}</p>
+                <img src="${product.imageUrl ? product.imageUrl : 'placeholder.jpg'}" alt="${product.name}" style="width: 100px; height: 100px;">
+            `;
+            productList.appendChild(productItem);
+        });
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+// Load products when the page loads
+window.onload = displayProducts;
+</script>
+
