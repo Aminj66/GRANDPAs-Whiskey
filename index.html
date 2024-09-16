@@ -442,5 +442,14 @@
             updateCartCount();
         };
     </script>
+
+    <script>
+   fetch('/api/products')
+      .then(response => response.json())
+      .then(data => {
+         // Render products to the page
+      });
+</script>
+
 </body>
 </html>
