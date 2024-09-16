@@ -1,73 +1,127 @@
-<!-- admin-panel.html -->
-<form id="productForm" enctype="multipart/form-data">
-    <input type="text" name="name" id="product-name" placeholder="Product Name" required>
-    <input type="number" name="price" id="product-price" placeholder="Product Price" required>
-    <textarea name="description" id="product-description" placeholder="Product Description"></textarea>
-    <input type="file" name="image" id="product-image" required>
-    <button type="submit">Add Product</button>
-</form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Admin Panel | GRANDPA's Whiskey</title>
+    <link rel="stylesheet" href="css/admin-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 
-<div id="product-list"></div>
-
-<script>
-document.getElementById('productForm').addEventListener('submit', async function (e) {
-    e.preventDefault();
-    const token = localStorage.getItem('token');
-    if (!token) {
-        alert('You are not authorized');
-        return;
-    }
-
-    const formData = new FormData(this);
-
-    try {
-        const response = await fetch('http://localhost:5000/products', {
-            method: 'POST',
-            headers: {
-                'Authorization': token
-            },
-            body: formData
-        });
-
-        const data = await response.json();
-        if (response.ok) {
-            // Product added successfully
-            alert('Product added');
-            // Refresh the product list
-            displayProducts();
-        } else {
-            // Handle errors
-            alert(data.message);
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            margin: 0;
+            padding: 0;
         }
-    } catch (error) {
-        console.error('Error:', error);
-    }
-});
 
-// Function to display products
-async function displayProducts() {
-    try {
-        const response = await fetch('http://localhost:5000/products');
-        const products = await response.json();
-        const productList = document.getElementById('product-list');
-        productList.innerHTML = '';
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
 
-        products.forEach(product => {
-            const productItem = document.createElement('div');
-            productItem.innerHTML = `
-                <h3>${product.name}</h3>
-                <p>Price: $${product.price}</p>
-                <p>${product.description}</p>
-                <img src="${product.imageUrl ? product.imageUrl : 'placeholder.jpg'}" alt="${product.name}" style="width: 100px; height: 100px;">
-            `;
-            productList.appendChild(productItem);
-        });
-    } catch (error) {
-        console.error('Error:', error);
-    }
-}
+        .sidebar {
+            width: 250px;
+            background-color: #222;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding-top: 20px;
+        }
 
-// Load products when the page loads
-window.onload = displayProducts;
-</script>
+        .sidebar a {
+            padding: 15px;
+            display: block;
+            color: #fff;
+            text-decoration: none;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .sidebar a:hover {
+            background-color: #575757;
+        }
+
+        .main-content {
+            margin-left: 260px;
+            padding: 20px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        .dashboard-section {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 30%;
+            text-align: center;
+        }
+
+        .card h3 {
+            margin: 0 0 10px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: #fff;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Admin Panel - GRANDPA's Whiskey</h1>
+    </header>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <a href="admin-panel.html">Dashboard</a>
+        <a href="manage-products.html">Manage Products</a>
+        <a href="orders.html">View Orders</a>
+        <a href="settings.html">Settings</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h2>Dashboard Overview</h2>
+
+        <div class="dashboard-section">
+            <div class="card">
+                <h3>Total Products</h3>
+                <p>120</p>
+            </div>
+            <div class="card">
+                <h3>Orders</h3>
+                <p>50</p>
+            </div>
+            <div class="card">
+                <h3>Revenue</h3>
+                <p>$5,000</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 GRANDPA's Whiskey. All rights reserved.</p>
+    </footer>
+</body>
+</html>
 
