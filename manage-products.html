@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Products | Admin Panel</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/styles.css"> <!-- Link to external CSS -->
 </head>
 <body>
     <header>
         <h1>Manage Products - Admin Panel</h1>
     </header>
+
     <div class="main-content">
         <h2>Add or Edit Products</h2>
         <div class="add-product">
@@ -25,7 +26,6 @@
                 <th>Category</th>
                 <th>Action</th>
             </tr>
-            <!-- Existing products will go here -->
         </table>
     </div>
 
@@ -56,7 +56,7 @@
             if (event.target.classList.contains('delete-btn')) {
                 event.target.parentElement.parentElement.remove();
             } else if (event.target.classList.contains('edit-btn')) {
-                // Edit functionality (to be expanded)
+                // Edit functionality
             }
         });
     </script>
