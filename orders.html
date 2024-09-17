@@ -3,42 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Orders | Admin Panel</title>
-    <link rel="stylesheet" href="css/admin-styles.css">
+    <title>View Orders | Admin Panel</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
     <header>
         <h1>View Orders - Admin Panel</h1>
     </header>
-    <link rel="stylesheet" href="css/styles.css">
+
     <div class="main-content">
-        <h2>Customer Orders</h2>
-        <table>
-            <tr>
-                <th>Order ID</th>
-                <th>Customer Name</th>
-                <th>Total</th>
-                <th>Status</th>
-                <th>Action</th>
-            </tr>
-            <!-- Sample Orders -->
-            <tr>
-                <td>#001</td>
-                <td>John Doe</td>
-                <td>$149.99</td>
-                <td>Pending</td>
-                <td><button>Update Status</button></td>
-            </tr>
-            <tr>
-                <td>#002</td>
-                <td>Jane Smith</td>
-                <td>$199.99</td>
-                <td>Shipped</td>
-                <td><button>Update Status</button></td>
-            </tr>
+        <h2>Recent Orders</h2>
+
+        <!-- Filter orders by status -->
+        <label for="filter-status">Filter by Status:</label>
+        <select id="filter-status">
+            <option value="all">All</option>
+            <option value="pending">Pending</option>
+            <option value="shipped">Shipped</option>
+            <option value="delivered">Delivered</option>
+        </select>
+
+        <table id="orders-table">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer Name</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Sample Orders -->
+                <tr data-status="pending">
+                    <td>#001</td>
+                    <td>John Doe</td>
+                    <td>$149.99</td>
+                    <td class="status">Pending</td>
+                    <td>
+                        <button class="update-status-btn">Update Status</button>
+                        <button class="delete-order-btn">Delete</button>
+                    </td>
+                </tr>
+                <tr data-status="shipped">
+                    <td>#002</td>
+                    <td>Jane Smith</td>
+                    <td>$199.99</td>
+                    <td class="status">Shipped</td>
+                    <td>
+                        <button class="update-status-btn">Update Status</button>
+                        <button class="delete-order-btn">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
         </table>
     </div>
+
+    <script>
+        const ordersTable = document.getElementById('orders-table');
+        const filterStatus = document.getElementById('filter-status');
+
+        // Update the status of the order
+        ordersTable.addEventListener('click', (event) => {
+            if (event.target.classList.contains('update-status-btn')) {
+                const statusCell = event.target.closest('tr').querySelector('.status');
+                if (statusCell.textContent === 'Pending') {
+                    statusCell.textContent = 'Shipped';
+                    event.target.closest('tr').setAttribute('data-status', 'shipped');
+                } else if (statusCell.textContent === 'Shipped') {
+                    statusCell.textContent = 'Delivered';
+                    event.target.closest('tr').setAttribute('data-status', 'delivered');
+                }
+            }
+            if (event.target.classList.contains('delete-order-btn')) {
+                event.target.closest('tr').remove();  // Remove the order from the table
+            }
+        });
+
+        // Filter orders by status
+        filterStatus.addEventListener('change', () => {
+            const selectedStatus = filterStatus.value;
+            const rows = ordersTable.querySelectorAll('tbody tr');
+
+            rows.forEach(row => {
+                if (selectedStatus === 'all' || row.getAttribute('data-status') === selectedStatus) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    </script>
 </body>
 </html>
 

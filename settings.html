@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Settings</title>
-    <link rel="stylesheet" href="css/admin-styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | Admin Panel</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
     <header>
-        <h1>Settings - Admin Panel</h1>
+        <h1>Admin Settings</h1>
     </header>
-   <link rel="stylesheet" href="css/styles.css">
     <div class="main-content">
-        <h2>Admin Settings</h2>
-        <form>
+        <h2>Update Admin Settings</h2>
+        <form id="settings-form">
             <label for="admin-name">Admin Name:</label>
             <input type="text" id="admin-name" placeholder="Enter admin name">
 
@@ -19,11 +20,29 @@
             <input type="email" id="email" placeholder="Enter email">
 
             <label for="password">Password:</label>
-            <input type="password" id="password" placeholder="Enter password">
+            <input type="password" id="password" placeholder="Enter new password">
 
             <button type="submit">Save Settings</button>
         </form>
     </div>
+
+    <script>
+        const settingsForm = document.getElementById('settings-form');
+
+        settingsForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const adminName = document.getElementById('admin-name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            if (adminName && email && password) {
+                // Simulating saving settings
+                alert(`Settings saved!\nName: ${adminName}\nEmail: ${email}`);
+            } else {
+                alert("Please fill all the fields.");
+            }
+        });
+    </script>
 </body>
 </html>
 
